@@ -1,0 +1,18 @@
+version: 0.0
+os: linux
+files:
+  - source: /cuckoo/
+    destination: /usr/local/lib/python2.7/dist-packages/cuckoo/
+permissions:
+  - object: /usr/local/lib/python2.7/dist-packages/cuckoo
+    owner: root
+    group: root
+hooks:
+ ApplicationStop:
+  - location: scripts/stop_cuckoo.sh
+    timeout: 60
+    runas: root
+ ApplicationStart:
+  - location: scripts/run_cuckoo.sh
+    timeout: 60
+    runas: root
