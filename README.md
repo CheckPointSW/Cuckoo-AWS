@@ -42,7 +42,10 @@ machinery   = aws
 
 •	Edit `aws.conf` according to the instructions in the file.  
 
-•	Run  $ cuckoo 
+•	Run 
+```
+cuckoo 
+```
  
 ** For malware network analysis, each guest should have the Nest as their default route 
 
