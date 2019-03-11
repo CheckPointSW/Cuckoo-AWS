@@ -8,7 +8,9 @@ The project is an extension to Cuckoo Sandbox open source project; it adds suppo
 
 
 •	Lunch Linux machine (possible via AWS marketplace)
+
 •	Copy the repository
+
 •	Setup and activate virtual environment 
 ```
 virtualenv venv
