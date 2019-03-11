@@ -59,8 +59,6 @@ class Screenshots(threading.Thread, Auxiliary):
 
             try:
                 img_current = scr.take()
-                self.send_image(src_img=img_current, dest_path="shots/latest.jpg")
-
             except IOError as e:
                 log.error("Cannot take screenshot: %s", e)
                 continue
@@ -70,19 +68,20 @@ class Screenshots(threading.Thread, Auxiliary):
 
             img_counter += 1
 
-            self.send_image(src_img=img_current, dest_path="shots/%04d.jpg" % img_counter)
+            # workaround as PIL can't write to the socket file object :(
+            tmpio = StringIO.StringIO()
+            img_current.save(tmpio, format="JPEG")
+            tmpio.seek(0)
+
+            # now upload to host from the StringIO
+            nf = NetlogFile()
+            nf.init("shots/%04d.jpg" % img_counter)
+
+            for chunk in tmpio:
+                nf.sock.sendall(chunk)
+
+            nf.close()
+
             img_last = img_current
 
         return True
-
-    def send_image(self, src_img, dest_path):
-        # workaround as PIL can't write to the socket file object :(
-        tmpio = StringIO.StringIO()
-        src_img.save(tmpio, format="JPEG")
-        tmpio.seek(0)
-        # now upload to host from the StringIO
-        nf = NetlogFile()
-        nf.init(dest_path)
-        for chunk in tmpio:
-            nf.sock.sendall(chunk)
-        nf.close()
