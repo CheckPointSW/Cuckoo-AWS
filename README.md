@@ -7,7 +7,7 @@ The project is an extension to Cuckoo Sandbox open source project; it adds suppo
 ## Installation instructions - Nest Setup
 
 
-•	Launch Linux machine (possible via AWS marketplace)
+•	Launch a Linux machine (possible via AWS marketplace)
 
 •	Copy the repository
 
@@ -32,7 +32,7 @@ python setup.py sdist develop
 ```
 cuckoo –d
 ```
-•	The first run should build the configuration files and save them in some location. The location is shown in the output of the run (should contain “.cuckoo” library). It is strongly advised to remember that location for the following steps and for future usages.
+•	The first run should build the configuration files and save them in some location. The location is shown in the output of the run (should contain “.cuckoo” library). It is strongly advised to remember that location for the following steps and for future usages
 
 •	Edit `cuckoo.conf`
 ```
@@ -40,7 +40,7 @@ machinery   = aws
 [resultserver] ip = <the private IP of this machine>
 ```
 
-•	Edit `aws.conf` according to the instructions in the file.  
+•	Edit `aws.conf` according to the instructions in the file
 
 •	Run 
 ```
