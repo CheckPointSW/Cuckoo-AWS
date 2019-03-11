@@ -2,33 +2,6 @@
 {% load staticfiles %}
 {% block content %}
 
-<script>
-    function refresh(node)
-{
-   var times = 1000; // gap in Milli Seconds;
-
-   (function startRefresh()
-   {
-      var address;
-      if(node.src.indexOf('?')>-1)
-       address = node.src.split('?')[0];
-      else
-       address = node.src;
-      node.src = address+"?time="+new Date().getTime();
-
-      setTimeout(startRefresh,times);
-   })();
-
-}
-
-window.onload = function()
-{
-  var node = document.getElementById('img1');
-  refresh(node);
-  // you can refresh as many images you want just repeat above steps
-}
-</script>
-
 <div class="flex-grid" id="post-submission">
 
     <header class="flex-grid__header">
@@ -51,7 +24,6 @@ window.onload = function()
     <section class="flex-grid__body--center background-grey">
         <div class="flex-grid__container">
             <div class="flex-grid__column scrollable">
-                <img id="img1" src="{% static shot.path  %}" width="800px">
 
                 <h3 class="clearfix">Tasks: <small>Refreshes every 2.5 seconds</small></h3>
                 <table class="cuckoo-table" id="submission-task-table">
