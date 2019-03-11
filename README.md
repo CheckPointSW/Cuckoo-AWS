@@ -30,7 +30,7 @@ python setup.py sdist develop
 ```
 $ cuckoo –d
 ```
-•	First run should build the configuration files, save that location as shown in the output (should contain .cuckoo library)
+•	The first run should build the configuration files and save them in some location. The location is shown in the output of the run (should contain “.cuckoo” library). It is strongly advised to remember that location for the following steps and for future usages.
 
 •	Edit `cuckoo.conf`
 ```
@@ -42,11 +42,17 @@ machinery   = aws
 
 •	Run  $ cuckoo 
  
-** For malware network analysis, set the Nest as default route of each guest.  
+** For malware network analysis, each guest should have the Nest as their default route 
 
 ## Problems and solutions
-•	try downgrading pip in case that the installation fails, or if the next exception appears                ” 'module' object has no attribute 'get_installed_distributions'”
+•	In case that the installation fails or if the following exception appears ” 'module' object has no attribute 'get_installed_distributions' ”, try downgrading pip:
 ```
 pip install --user --force-reinstall pip==9.0.3
 ```
-•	If re-generating the configuration is needed, then delete the whole .cuckoo folder and run cuckoo –d once again.
+•	In case of various issues during the build of the configuration files, try re-generating the configuration. 
+Delete the whole “.cuckoo” folder and run the following:
+```
+cuckoo –d 
+```
+
+
