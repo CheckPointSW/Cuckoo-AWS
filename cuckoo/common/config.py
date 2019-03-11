@@ -262,18 +262,19 @@ class Config(object):
         },
         "aws": {
             "aws": {
-                "region_name": String("us-west-2"),
-                "availability_zone": String("us-west-2a"),
+                "region_name": String(),
+                "availability_zone": String(),
                 "aws_access_key_id": String(),
                 "aws_secret_access_key": String(),
-                "machines": List(String, "cuckoo1"),
+                "machines": List(String, "i-0123456789abcdef"),
                 "interface": String("eth0"),
-                "running_machines_gap": Int(0)
+                "running_machines_gap": Int(1)
             },
             "autoscale": {
                 "autoscale": Boolean(False),
+                "dynamic_machines_limit": Int(10),
                 "image_id": String(),
-                "instance_type": String("t2.small"),
+                "instance_type": String("t2.medium"),
                 "subnet_id": String(),
                 "security_groups": List(String, ""),
                 "platform": String("windows"),
@@ -281,14 +282,14 @@ class Config(object):
                 "options": List(String, None, ",\\s"),
                 "tags": String(),
                 "resultserver_ip": String(),
-                "resultserver_port": Int()
+                "resultserver_port": Int(2042)
             },
             "*": {
-                "__section__": "cuckoo1",
-                "label": String("cuckoo1"),
+                "__section__": "i-0123456789abcdef",
+                "label": String("i-0123456789abcdef"),
                 "snapshot": String(),
                 "platform": String("windows"),
-                "ip": String("192.168.56.101"),
+                "ip": String(),
                 "interface": String(),
                 "options": List(String, None, ",\\s"),
                 "tags": String(),
