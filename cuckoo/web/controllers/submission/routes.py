@@ -4,7 +4,6 @@
 
 import logging
 import os.path
-from cuckoo.misc import cwd
 
 from django.shortcuts import redirect
 
@@ -12,9 +11,6 @@ from cuckoo.common.exceptions import CuckooOperationalError
 from cuckoo.core.database import Database
 from cuckoo.core.submit import SubmitManager
 from cuckoo.web.utils import view_error, render_template, dropped_filepath
-from cuckoo.web.controllers.analysis.analysis import AnalysisController
-from cuckoo.processing.screenshots import Screenshots
-
 
 log = logging.getLogger(__name__)
 submit_manager = SubmitManager()
@@ -29,16 +25,11 @@ class SubmissionRoutes(object):
         submit = Database().view_submit(submit_id, tasks=True)
         if not submit:
             return view_error(request, "Invalid Submit ID specified")
-        last_task = None
+
         task_ids = []
         for task in submit.tasks:
             task_ids.append(task.id)
-            last_task = task.id
 
-        #report = AnalysisController.get_report(last_task)
-        screenshots_object = Screenshots()
-        #shots = screenshots_object.run()
-        #shots = SubmissionRoutes.get_snapshots(last_task) if last_task is not None else []
         if not task_ids:
             return view_error(
                 request, "This Submit ID is not associated with any tasks. "
@@ -46,51 +37,8 @@ class SubmissionRoutes(object):
             )
 
         return render_template(
-            request, "submission/postsubmit.html",
-            task_ids=sorted(task_ids),
-            #report=report,
-            #shots=[shots[-1]] if len(shots) > 0 else []
-            shot=SubmissionRoutes.get_snapshot(last_task)
+            request, "submission/postsubmit.html", task_ids=sorted(task_ids)
         )
-
-    @staticmethod
-    def get_snapshots(task):
-        try:
-            analysis_path = cwd(analysis=task)
-            shots_path = os.path.join(analysis_path, "shots")
-            screenshots = []
-            for shot_file in sorted(os.listdir(shots_path)):
-                if not shot_file.endswith(".jpg"):
-                    continue
-
-                if "_" in shot_file:
-                    continue
-
-
-                #shot_path = os.path.join(shots_path, shot_file)
-                shot_path = os.path.join("analysis_link", str(task), "shots", shot_file)
-
-                shot_entry = {
-                    "path": shot_path,
-                    "ocr": "",
-                }
-                # Append entry to list of screenshots.
-                screenshots.append(shot_entry)
-
-            return screenshots
-        except:
-            return []
-
-
-    @staticmethod
-    def get_snapshot(task):
-        shot_path = os.path.join("analysis_link", str(task), "shots", "latest.jpg")
-        shot_entry = {
-            "path": shot_path,
-            "ocr": "",
-        }
-        return shot_entry
-
 
     @staticmethod
     def presubmit(request, submit_id):
