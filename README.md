@@ -28,7 +28,7 @@ python setup.py sdist develop
 ```
 •	Run cuckoo with debug output
 ```
-$ cuckoo –d
+cuckoo –d
 ```
 •	The first run should build the configuration files and save them in some location. The location is shown in the output of the run (should contain “.cuckoo” library). It is strongly advised to remember that location for the following steps and for future usages.
 
