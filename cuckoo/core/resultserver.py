@@ -369,7 +369,7 @@ class FileUpload(ProtocolHandler):
                 "FileUpload failure, path sanitization failed."
             )
 
-        if os.path.exists(file_path) and not "latest" in file_path:
+        if os.path.exists(file_path):
             log.warning(
                 "Analyzer tried to overwrite an existing file, "
                 "closing connection."
