@@ -7,7 +7,7 @@ The project is an extension to Cuckoo Sandbox open source project; it adds suppo
 ## Installation instructions - Nest Setup
 
 
-•	Lunch Linux machine (possible via AWS marketplace)
+•	Launch Linux machine (possible via AWS marketplace)
 
 •	Copy the repository
 
@@ -20,7 +20,7 @@ venv/bin/activate
 ```
 pip install boto3
 ```
-•	Obtain the matching monitoring binaries from the Community repository.
+•	Obtain the matching monitoring binaries from the community repository
 ```
 python stuff/monitor.py
 ```
