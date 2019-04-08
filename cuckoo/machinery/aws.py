@@ -308,9 +308,10 @@ class AWS(Machinery):
         :param instance: instance object
         :return: true if the instance in "autoscaled"
         """
-        for item in instance.tags:
-            if item.get("Key") == self.AUTOSCALE_CUCKOO:
-                return True
+        if instance.tags:
+            for tag in instance.tags:
+                if tag.get("Key") == self.AUTOSCALE_CUCKOO:
+                    return True
         return False
 
     def _restore(self, label):
