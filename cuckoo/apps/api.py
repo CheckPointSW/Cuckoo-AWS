@@ -23,11 +23,24 @@ from cuckoo.core.rooter import rooter
 from cuckoo.core.submit import SubmitManager
 from cuckoo.misc import cwd, version, decide_cwd, Pidfile
 
+from cuckoo.common.mongo import mongo
+from bottle import response
+import json
+
 db = Database()
 sm = SubmitManager()
 
 # Initialize Flask app.
 app = Flask(__name__)
+
+# From Weilin
+def jsonize(data):
+    """Converts data dict to JSON.
+    @param data: data dict
+    @return: JSON formatted data
+    """
+    response.content_type = "application/json; charset=UTF-8"
+    return json.dumps(data, sort_keys=False, indent=4)
 
 def json_error(status_code, message):
     """Return a JSON object with a HTTP error code."""
@@ -55,6 +68,34 @@ def custom_headers(response):
     response.headers["Cache-Control"] = "no-cache"
     response.headers["Expires"] = "0"
     return response
+
+# ADDED
+@app.route("/tasks/check_reported/<sha1>", methods=["GET"])
+def check_reported(sha1):
+    record = mongo.db.analysis.find_one({'target.file.sha1': sha1})
+    if not record:
+        return None
+    return jsonize(record['info']['id'])
+
+# ADDED
+@app.route("/tasks/view_signatures/<int:task_id>", methods=["GET"])
+def view_signatures(task_id):
+    # report.json specific
+    report_path = cwd(
+        "storage", "analyses", "%d" % task_id, "reports",
+        "report.json"
+    )
+    record = json.loads(open(report_path, "rb").read())
+    sigs = record['signatures']
+    return jsonize(sigs)
+
+
+"""
+# From Weilin
+def ensure_analysis_id_index(col):
+    if 'info.id' not in col.index_information():
+        col.create_index([("info.id", ASCENDING)], name="info.id", unique=True)
+"""
 
 @app.route("/tasks/create/file", methods=["POST"])
 @app.route("/v1/tasks/create/file", methods=["POST"])
@@ -647,7 +688,14 @@ def exit_api():
         return jsonify(message="Server stopped")
 
 def cuckoo_api(hostname, port, debug):
+    mongo.init()
+    mongo.connect()
+
     app.run(host=hostname, port=port, debug=debug)
+    
+    # From Weilin
+    # Ensure indexes on db.analysis
+    #ensure_analysis_id_index(collection)
 
 if os.environ.get("CUCKOO_APP") == "api":
     decide_cwd(exists=True)
