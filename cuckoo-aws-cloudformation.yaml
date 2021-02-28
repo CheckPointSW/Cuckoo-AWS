@@ -27,11 +27,6 @@ Resources:
           virtualenv venv
           . venv/bin/activate
           sudo chown -R ec2-user:ec2-user /home/ec2-user/cuckoo-aws/venv
-          pip install idna==2.0.0
-          pip install cryptography==3.2.0
-          pip install MarkupSafe==1.1.1
-          pip install itsdangerous==1.1.0
-          pip install Werkzeug==1.0.1
           pip install virtualenv --upgrade
           pip install pip==9.0.3
           pip install boto3
