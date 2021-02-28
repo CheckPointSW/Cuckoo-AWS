@@ -1,0 +1,53 @@
+Parameters:
+      KeyName:
+        Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+        Type: String
+      SubnetIdInput:
+        Type: "AWS::EC2::Subnet::Id"
+      securityGroupIdList:
+        Type: "List<AWS::EC2::SecurityGroup::Id>"
+        
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName: !Ref KeyName
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          sudo yum -y install git
+          sudo yum -y install python-pip
+          sudo pip install virtualenv
+          sudo yum -y install gcc
+          sudo yum -y install zlib-devel
+          sudo yum install -y libjpeg-devel
+          git clone https://github.com/CheckPointSW/Cuckoo-AWS.git /home/ec2-user/cuckoo-aws
+          cd /home/ec2-user/cuckoo-aws
+          sudo chown -R ec2-user:ec2-user /home/ec2-user/cuckoo-aws
+          virtualenv venv
+          . venv/bin/activate
+          sudo chown -R ec2-user:ec2-user /home/ec2-user/cuckoo-aws/venv
+          pip install idna==2.0.0
+          pip install cryptography==3.2.0
+          pip install MarkupSafe==1.1.1
+          pip install itsdangerous==1.1.0
+          pip install Werkzeug==1.0.1
+          pip install virtualenv --upgrade
+          pip install pip==9.0.3
+          pip install boto3
+          python stuff/monitor.py
+          python setup.py sdist develop
+      InstanceType: t3.large
+      AvailabilityZone: us-west-2a
+      ImageId: ami-09c5e030f74651050
+      SecurityGroupIds: !Ref securityGroupIdList
+      SubnetId: !Ref SubnetIdInput
+      BlockDeviceMappings:
+        -
+          DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 8
+      Tags:
+        -
+          Key: Name
+          Value: Cuckoo-AWS-Cloudformation
