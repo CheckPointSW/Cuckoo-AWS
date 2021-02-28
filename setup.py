@@ -216,6 +216,11 @@ do_setup(
         "unicorn==1.0.1",
         "wakeonlan==0.2.2",
         "yara-python==3.6.3",
+        "idna==2.0.0",
+        "cryptography==3.2.0",
+        "MarkupSafe==1.1.1",
+        "itsdangerous==1.1.0",
+        "Werkzeug==1.0.1"       
     ],
     extras_require={
         ":sys_platform == 'win32'": [
