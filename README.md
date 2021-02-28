@@ -11,33 +11,7 @@ https://research.checkpoint.com/cuckoo-system-on-aws/
 ## Installation instructions - Nest Setup
 
 
-•	Launch a Linux machine (possible via AWS marketplace)
-
-•	Clone the repository
-```
-git clone https://github.com/CheckPointSW/Cuckoo-AWS
-```
-
-•	Setup and activate virtual environment 
-```
-virtualenv venv
-. venv/bin/activate
-```
-
-•	Install boto3 library
-```
-pip install boto3
-```
-
-•	Obtain the matching monitoring binaries from the community repository
-```
-python stuff/monitor.py
-```
-
-•	Install cuckoo as DEV mode
-```
-python setup.py sdist develop
-```
+Attached cloudformation stack: cuckoo-aws-cloudformation.yaml, run it and you will receive an EC2 instance with all the requriements installed
 
 •	Run cuckoo with debug output
 ```
@@ -81,17 +55,6 @@ cuckoo
 •	Save this instace as a new image(AMI). This action will also create a new snapshot(snapshot-id can be found under the AMI details)
 
 
-## Problems and solutions
-•	In case that the installation fails or if the following exception appears ” 'module' object has no attribute 'get_installed_distributions' ”, try downgrading pip:
-```
-pip install --force-reinstall pip==9.0.3
-```
-
-•	In case of various issues during the build of the configuration files, try re-generating the configuration. 
-Delete the whole “.cuckoo” folder and run the following:
-```
-cuckoo –d 
-```
 
 ## Changes from official Cuckoo repository
 
