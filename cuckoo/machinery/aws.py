@@ -43,9 +43,13 @@ class AWS(Machinery):
         self.dynamic_machines_sequence = 0
         self.dynamic_machines_count = 0
         log.info("connecting to AWS:{}".format(self.options.aws.region_name))
-        self.ec2_resource = boto3.resource(
-            "ec2", region_name=self.options.aws.region_name, aws_access_key_id=self.options.aws.aws_access_key_id,
-            aws_secret_access_key=self.options.aws.aws_secret_access_key)
+
+        if not self.options.aws.aws_access_key_id or not self.options.aws.aws_secret_access_key:
+            self.ec2_resource = boto3.resource("ec2", region_name=self.options.aws.region_name)
+        else:
+            self.ec2_resource = boto3.resource(
+                "ec2", region_name=self.options.aws.region_name, aws_access_key_id=self.options.aws.aws_access_key_id,
+                aws_secret_access_key=self.options.aws.aws_secret_access_key)
 
         # Iterate over all instances with tag that has a key of AUTOSCALE_CUCKOO
         for instance in self.ec2_resource.instances.filter(Filters=[{"Name": "instance-state-name",
