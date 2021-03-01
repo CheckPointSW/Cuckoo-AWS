@@ -1,0 +1,9 @@
+ name: AWS CloudFormation "Deploy CloudFormation Stack" Action for GitHub Actions
+  # You may pin to the exact commit or the version.
+  # uses: aws-actions/aws-cloudformation-github-deploy@dfbee8a4fec90af61b71bafda3890f8c4a2075ef
+  uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+  with:
+    # The name of the CloudFormation stack
+    name: Cuckoo-AWS-Cloudformation
+    # The path or URL to the CloudFormation template
+    template: cuckoo-aws-cloudformation.yaml
