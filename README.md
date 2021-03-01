@@ -11,7 +11,7 @@ https://research.checkpoint.com/cuckoo-system-on-aws/
 ## Installation instructions - Nest Setup
 
 
-•	We added cloudformation stack: * `cuckoo-aws-cloudformation.yaml`, All you need to do is running it and you will receive an EC2 instance with all the requirements installed in it
+•	We added cloudformation stack:  `cuckoo-aws-cloudformation.yaml`, All you need to do is running it and you will receive an EC2 instance with all the requirements installed in it
 
 •	Run cuckoo with debug output
 ```
