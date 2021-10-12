@@ -33,7 +33,7 @@ Resources:
           python stuff/monitor.py
           python setup.py sdist develop
       InstanceType: t3.large
-      AvailabilityZone: us-west-2a
+      AvailabilityZone: ap-southeast-1
       ImageId: ami-09c5e030f74651050
       SecurityGroupIds: !Ref securityGroupIdList
       SubnetId: !Ref SubnetIdInput
